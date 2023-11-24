@@ -5,17 +5,17 @@
         <div class="big-dialog">
           <div class="clearfix">
             <div class="pull-left dialog-picture">
-              <img class="small-profile-picture" [src]="'https://pettinder.herokuapp.com/'+ pet.image">
+              <img class="small-profile-picture" [src]="backendUrl + '/' + pet.image" alt="">
             </div>
             <h3>Name</h3>
             <p>Profile Text</p>
           </div>
           <div class="clearfix">
             <a class="btn btn-default">Cancel</a>
-            <form [formGroup]="sendTextForm">
+            <form [formGroup]="sendTextForm" (ngSubmit)="onSendMessage()">
               <label>Name</label>
-              <input type="text" class="form-control">
-              <button type="submit" class="btn btn-primary pull-right">Let's Play</button>
+              <input type="text" class="form-control" formControlName="name" placeholder="type your name">
+              <button type="submit" class="btn btn-primary pull-right">Let's play</button>
             </form>
           </div>
         </div>

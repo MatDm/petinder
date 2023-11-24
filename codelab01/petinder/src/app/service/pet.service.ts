@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {map, Observable} from "rxjs";
 import {Pet} from "../model/Pet";
+import {Whatsapp} from "../model/Whatsapp";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class PetService {
     );
   }
 
-  addPet(pet: Pet){
+  addPet(pet: Pet) {
     this.http.post<Pet>(this._backendUrlPets, pet).subscribe(
       () => alert("Pet added")
     );
@@ -40,5 +41,11 @@ export class PetService {
     this.http.delete(this._backendUrlPets + '/' + petId).subscribe(
       () => alert("Pet deleted")
     );
+  }
+
+  sendMessage(whatsapp: Whatsapp) {
+    this.http.post<Whatsapp>(this._backendUrlPets + '/sendText', whatsapp).subscribe(
+      () => alert('Message sent!')
+    )
   }
 }

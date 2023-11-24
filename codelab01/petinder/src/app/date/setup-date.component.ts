@@ -4,7 +4,10 @@ import {ActivatedRoute} from "@angular/router";
 import {Observable} from "rxjs";
 import {Pet} from "../model/Pet";
 import {PetService} from "../service/pet.service";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {environment} from "../../environments/environment";
+import {Whatsapp} from "../model/Whatsapp";
+
 
 @Component({
   selector: 'app-setup-date',
@@ -15,9 +18,12 @@ import {ReactiveFormsModule} from "@angular/forms";
 })
 export class SetupDateComponent implements OnInit {
   public pet$: Observable<Pet> | undefined;
-  sendTextForm: any;
+  public backendUrl: string = environment.backendUrl;
+  sendTextForm = this.formBuilder.group({
+    name: ''
+  })
 
-  constructor(private _activatedRoute: ActivatedRoute, private _petService: PetService) {
+  constructor(private _activatedRoute: ActivatedRoute, private _petService: PetService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -30,4 +36,8 @@ export class SetupDateComponent implements OnInit {
   }
 
 
+  onSendMessage() {
+    this._petService.sendMessage(this.sendTextForm.value as Whatsapp);
+    this.sendTextForm.reset();
+  }
 }
