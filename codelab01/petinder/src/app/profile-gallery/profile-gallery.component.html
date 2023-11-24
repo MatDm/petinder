@@ -1,0 +1,69 @@
+<ng-container *ngIf="pets$ | async as pets">
+  <div class="container-fluid">
+    <div class="row">
+      <div id="gallery" class="col-md-9">
+        <div class="gallery">
+          <div class="gallery-pet fader" *ngFor="let pet of pets | nameFilter: searchText"
+               (click)="selectPet(pet)" [class.active]="selectedPet === pet">
+            <img class="profile-picture" [src]="'https://pettinder.herokuapp.com/'+ pet.image" alt="">
+            <div class="overlay">
+              <div class="overlay-text">{{pet.name}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <section class="tiny-dialog">
+          <h3>Add your pet</h3>
+          <form class="form-group" [formGroup]="createPetForm" (ngSubmit)="onAdd()">
+            <label for="formName">Name</label>
+            <input id="formName" type="text" class="form-control" formControlName="name" placeholder="name">
+            <label>Kind</label>
+            <input type="text" class="form-control" formControlName="kind" placeholder="kind">
+            <label>Image</label>
+            <input type="text" class="form-control" formControlName="image" placeholder="image">
+            <label>Profile Text</label>
+            <input type="text" class="form-control" formControlName="profileText" placeholder="profileText">
+            <br>
+            <button type="submit" class="form-control btn-primary" [disabled]="!createPetForm.valid">Add</button>
+          </form>
+        </section>
+
+
+        <section class="tiny-dialog">
+          <h3>Find your pet</h3>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" class="form-control" placeholder="Name" [(ngModel)]="searchText">
+          </div>
+        </section>
+        <ng-container *ngIf="selectedPet">
+          <div class="gallery-detail">
+            <section id="petProfile" class="tiny-dialog fader">
+              <h3>{{selectedPet.name}}</h3>
+              <p>{{selectedPet.profileText}}</p>
+<!--              <button class="form-control btn-primary" >Date</button>-->
+              <a class="form-control btn-primary text-center text-decoration-none" [routerLink]="['/setup-date', selectedPet.name]">Date</a>
+              <br>
+              <button type="submit" class="form-control btn-danger" (click)="onDelete(selectedPet.id)">Delete</button>
+            </section>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+
+<!--<ng-template #content let-modal>-->
+<!--  <div class="modal-header">-->
+<!--    <h4 class="modal-title">Modal title</h4>-->
+<!--    <button type="button" class="btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>-->
+<!--  </div>-->
+<!--  <div class="modal-body">-->
+<!--    <p>One fine body&hellip;</p>-->
+<!--  </div>-->
+<!--  <div class="modal-footer">-->
+<!--    <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>-->
+<!--  </div>-->
+<!--</ng-template>-->
